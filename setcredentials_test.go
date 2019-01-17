@@ -44,7 +44,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 				},
 			}
 
-			newCred, err := chClient.Set(cred, credhub.Overwrite, nil)
+			newCred, err := chClient.Set(cred, nil)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(newCred.Created).NotTo(BeEmpty())
 			Expect(newCred.ID).NotTo(BeEmpty())
@@ -60,7 +60,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 				},
 			}
 
-			newCred, err := chClient.Set(cred, credhub.NoOverwrite, nil)
+			newCred, err := chClient.Set(cred, nil)
 			Expect(err).To(Not(HaveOccurred()))
 			Expect(newCred.Created).To(Not(BeEmpty()))
 			v, err := credhub.UserValue(*newCred)
@@ -79,7 +79,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 				},
 			}
 
-			newCred, err := chClient.Set(cred, credhub.Converge, nil)
+			newCred, err := chClient.Set(cred, nil)
 			Expect(err).To(Not(HaveOccurred()))
 			Expect(newCred.Created).To(Not(BeEmpty()))
 			Expect(newCred.ID).To(BeEquivalentTo("6ba7b810-9dad-11d1-80b4-00c04fd430c8"))
@@ -95,7 +95,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 				},
 			}
 
-			newCred, err := chClient.Set(cred, credhub.Converge, nil)
+			newCred, err := chClient.Set(cred, nil)
 			Expect(err).To(Not(HaveOccurred()))
 			Expect(newCred.Created).To(Not(BeEmpty()))
 			Expect(newCred.ID).To(Not(BeEquivalentTo("6ba7b810-9dad-11d1-80b4-00c04fd430c8")))
@@ -106,7 +106,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 		when("an error occurs creating the HTTP request", func() {
 			it("fails", func() {
 				chClient = credhub.New("badscheme://bad_hsot\\", http.DefaultClient)
-				cred, err := chClient.Set(credhub.Credential{}, credhub.Overwrite, nil)
+				cred, err := chClient.Set(credhub.Credential{}, nil)
 				Expect(err).To(HaveOccurred())
 				Expect(cred).To(BeNil())
 			})
@@ -115,7 +115,7 @@ func testSetCredentials(t *testing.T, when spec.G, it spec.S) {
 		when("an error occurs on the http round trip", func() {
 			it("fails", func() {
 				chClient = credhub.New(server.URL, &http.Client{Transport: &errorRoundTripper{}})
-				cred, err := chClient.Set(credhub.Credential{}, credhub.Overwrite, nil)
+				cred, err := chClient.Set(credhub.Credential{}, nil)
 				Expect(err).To(HaveOccurred())
 				Expect(cred).To(BeNil())
 			})

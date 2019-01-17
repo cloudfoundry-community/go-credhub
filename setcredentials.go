@@ -10,7 +10,7 @@ import (
 func (c *Client) Set(credential Credential, additionalPermissions []Permission) (*Credential, error) {
 	reqBody := struct {
 		Credential
-		AdditionalPermissions []Permission  `json:"additional_permissions,omitempty"`
+		AdditionalPermissions []Permission `json:"additional_permissions,omitempty"`
 	}{
 		Credential:            credential,
 		AdditionalPermissions: additionalPermissions,
