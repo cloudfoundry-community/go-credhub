@@ -7,14 +7,12 @@ import (
 )
 
 // Set adds a credential in Credhub.
-func (c *Client) Set(credential Credential, mode OverwriteMode, additionalPermissions []Permission) (*Credential, error) {
+func (c *Client) Set(credential Credential, additionalPermissions []Permission) (*Credential, error) {
 	reqBody := struct {
 		Credential
-		Mode                  OverwriteMode `json:"mode"`
 		AdditionalPermissions []Permission  `json:"additional_permissions,omitempty"`
 	}{
 		Credential:            credential,
-		Mode:                  mode,
 		AdditionalPermissions: additionalPermissions,
 	}
 
